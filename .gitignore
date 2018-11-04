@@ -1,0 +1,4 @@
+.idea
+yolo/saved_model/*
+yolo/*.weights
+data/*
