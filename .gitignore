@@ -1,4 +1,9 @@
 .idea
-yolo/saved_model/*
-yolo/*.weights
-data/*
+detectors/yolo/saved_model/*
+detectors/yolo/*.weights
+detectors/yolo/__pycache__/*
+detectors/module_utils/__pycache__/*
+detectors/__pycache__/*
+data/*git
+detectors/faster_rcnn/lib/nms/*.pyc
+detectors/faster_rcnn/lib/nms/*.so
