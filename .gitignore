@@ -1,9 +1,7 @@
 .idea
 detectors/yolo/saved_model/*
-detectors/yolo/*.weights
-detectors/yolo/__pycache__/*
-detectors/module_utils/__pycache__/*
-detectors/__pycache__/*
-data/*git
-detectors/faster_rcnn/lib/nms/*.pyc
-detectors/faster_rcnn/lib/nms/*.so
+detectors/yolo/darknet_weights/*
+data/imgs
+env/
+graphs/
+models/
