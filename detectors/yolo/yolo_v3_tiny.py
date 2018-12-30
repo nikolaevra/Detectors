@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import numpy as np
 import tensorflow as tf
 from yolo_v3 import _conv2d_fixed_padding, _fixed_padding, _get_size, \
     _detection_layer, _upsample
