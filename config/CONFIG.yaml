@@ -16,5 +16,5 @@ TaskConfig:
   IN_LAYER: "inputs"
   OUT_LAYER: "output_boxes"
   GRAPH_PATH: "graphs/frozen_darknet_yolov3_model.pb"
-  CLS_PATH: "graphs/coco_names.txt"
-  MODEL_CKPT_PATH: "models/full/model.ckpt"
+  CLS_PATH: "config/obj.names"
+  MODEL_CKPT_PATH: "models/tiny/model.ckpt"
