@@ -15,10 +15,10 @@ tf.app.flags.DEFINE_string(
 tf.app.flags.DEFINE_string(
     'data_format', 'NHWC', 'Data format: NCHW (gpu only) / NHWC')
 tf.app.flags.DEFINE_string(
-    'output_graph', '../graphs/yolov3_NHWC_model.pb', 'Frozen tensorflow protobuf model output path')
+    'output_graph', '../graphs/yolov3_tiny_NHWC.pb', 'Frozen tensorflow protobuf model output path')
 
 tf.app.flags.DEFINE_bool(
-    'tiny', False, 'Use tiny version of YOLOv3')
+    'tiny', True, 'Use tiny version of YOLOv3')
 tf.app.flags.DEFINE_integer('width', 416, 'Image size')
 tf.app.flags.DEFINE_integer('height', 416, 'Image size')
 

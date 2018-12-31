@@ -10,15 +10,15 @@ from yolo.utils import load_coco_names, load_weights
 FLAGS = tf.app.flags.FLAGS
 
 tf.app.flags.DEFINE_string(
-    'class_names', 'yolo/coco.names', 'File with class names')
+    'class_names', 'yolo/obj.names', 'File with class names')
 tf.app.flags.DEFINE_string(
-    'weights_file', 'yolo/darknet_weights/yolov3.weights', 'Binary file with detector weights')
+    'weights_file', 'yolo/darknet_weights/yolov3-tiny_obj_last.weights', 'Binary file with detector weights')
 tf.app.flags.DEFINE_string(
     'data_format', 'NHWC', 'Data format: NCHW (gpu only) / NHWC')
 tf.app.flags.DEFINE_bool(
-    'tiny', False, 'Use tiny version of YOLOv3')
+    'tiny', True, 'Use tiny version of YOLOv3')
 tf.app.flags.DEFINE_string(
-    'ckpt_file', '../models/full/model.ckpt', 'Checkpoint file')
+    'ckpt_file', '../models/tiny/model.ckpt', 'Checkpoint file')
 tf.app.flags.DEFINE_integer('width', 416, 'Image size')
 tf.app.flags.DEFINE_integer('height', 416, 'Image size')
 
