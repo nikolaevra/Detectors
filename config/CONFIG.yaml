@@ -15,6 +15,6 @@ TaskConfig:
   IMG_LIMIT: 1
   IN_LAYER: "inputs"
   OUT_LAYER: "output_boxes"
-  GRAPH_PATH: "graphs/frozen_darknet_yolov3_model.pb"
+  GRAPH_PATH: "graphs/frozen_darknet_yolov3.pb"
   CLS_PATH: "config/obj.names"
   MODEL_CKPT_PATH: "models/tiny/model.ckpt"
