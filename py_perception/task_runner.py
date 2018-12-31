@@ -15,11 +15,10 @@ class TaskRunner:
         self.images_file_path = os.path.join(base_dir, config['DATA_DIR'])
 
         self.detector = YoloDetectorWrapper(
-            tiny=False,
+            tiny=True,
             ckpt_path=self.ckpt_path,
             cls_path=self.cls_path,
-            frozen_model='',
-            gpu=1
+            frozen_model=''
         )
         self.tracker = Tracker(config['SIGMA_L'], config['SIGMA_H'], config['SIGMA_IOU'], config['T_MIN'])
 

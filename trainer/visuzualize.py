@@ -9,7 +9,7 @@ IMG_WIDTH = 960
 IMG_HEIGHT = 540
 
 base_path = '/home/nikolaevra/datasets/traffic/parsed_data'
-filename = 'MVI_63554_img00100'
+filename = 'MVI_41063_img01274'
 
 im = np.array(Image.open(os.path.join(base_path, filename + '.jpg')), dtype=np.uint8)
 

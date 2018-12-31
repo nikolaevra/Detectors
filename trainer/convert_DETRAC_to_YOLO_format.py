@@ -1,6 +1,7 @@
-from xml.dom import minidom
-from shutil import copyfile
+import xml.etree.ElementTree as ET
 import os
+
+from shutil import copyfile
 
 DETRAC_ann_base = '/home/nikolaevra/datasets/traffic/DETRAC-Train-Annotations-XML'
 DETRAC_data_base = '/home/nikolaevra/datasets/traffic/Insight-MVT_Annotation_Train'
@@ -9,7 +10,7 @@ output_dir_base = '/home/nikolaevra/datasets/traffic/parsed_data'
 IMG_WIDTH = 960.0
 IMG_HEIGHT = 540.0
 
-LIMIT = 100
+LIMIT = 50
 
 
 def convert_to_yolo_box(height, width, left, top):
@@ -50,34 +51,32 @@ def save_seqs_and_copy_images(sequences, imgs_folder, all_img_filenames):
 
 
 def parse_single_file(dir_name, categories, all_img_filenames):
-    parsed_xml = minidom.parse(os.path.join(DETRAC_ann_base, dir_name) + '.xml')
-    all_frames = parsed_xml.getElementsByTagName('frame')
+    parsed_xml = ET.parse(os.path.join(DETRAC_ann_base, dir_name) + '.xml').getroot()
     to_write_name_labels_seq = {dir_name + '_' + k: [] for k in all_img_filenames}
-
-    if len(all_frames) != len(all_img_filenames):
-        print("The number of labels and images does not match, skipping this folder.")
-        return {}
 
     for img_filename in all_img_filenames:
         img_id = int(img_filename[3:8])
+        found_targets = [x for x in parsed_xml.iter('frame') if x.attrib['num'] == str(img_id)]
 
-        for target in all_frames[img_id - 1].getElementsByTagName('target'):
+        if len(found_targets) > 0:
+            for target in found_targets[0].iter('target'):
+                vehicle_type = target.find('attribute').get('vehicle_type')
 
-            vehicle_type = target.childNodes[3].attributes['vehicle_type'].value
+                if vehicle_type not in categories:
+                    obj_id = len(categories)
+                    categories[vehicle_type] = obj_id
 
-            if vehicle_type not in categories:
-                obj_id = len(categories) + 1
-                categories[vehicle_type] = obj_id
-
-            to_write_name_labels_seq[dir_name + '_' + img_filename].append(
-                [categories[vehicle_type]] +
-                convert_to_yolo_box(
-                    float(target.childNodes[1].attributes['height'].value),
-                    float(target.childNodes[1].attributes['width'].value),
-                    float(target.childNodes[1].attributes['left'].value),
-                    float(target.childNodes[1].attributes['top'].value)
+                to_write_name_labels_seq[dir_name + '_' + img_filename].append(
+                    [categories[vehicle_type]] +
+                    convert_to_yolo_box(
+                        float(target.find('box').get('height')),
+                        float(target.find('box').get('width')),
+                        float(target.find('box').get('left')),
+                        float(target.find('box').get('top'))
+                    )
                 )
-            )
+        else:
+            print("Didn't find a matching target.")
 
     return to_write_name_labels_seq
 
@@ -96,6 +95,7 @@ if __name__ == '__main__':
         print("Processing {} folder.".format(folder))
 
         all_filenames = get_all_filenames(folder)
+        all_filenames = all_filenames[:LIMIT]
 
         seqs = parse_single_file(folder, cat_map, all_filenames)
         save_seqs_and_copy_images(seqs, folder, all_filenames)
