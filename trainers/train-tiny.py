@@ -1,5 +1,5 @@
 import tensorflow as tf
-from core import utils, yolov3
+from core import utils, yolo_v3
 
 INPUT_SIZE = 416
 BATCH_SIZE = 1
@@ -21,12 +21,10 @@ dataset = dataset.repeat().shuffle(SHUFFLE_SIZE).batch(BATCH_SIZE).prefetch(BATC
 iterator = dataset.make_one_shot_iterator()
 example = iterator.get_next()
 
-images, *y_true = example
-model = yolov3.yolov3(num_classes)
-
+images, y_true_13, y_true_26, y_true_52 = example
 
 with tf.variable_scope('yolov3'):
-    y_pred = model.forward(images, is_training=is_training)
+    predictions, fmap1, fmap2 = yolo_v3_tiny.yolo_v3_tiny(images, is_training=is_training)
     loss = model.compute_loss(y_pred, y_true)
     y_pred = model.predict(y_pred)
 

@@ -1,4 +1,4 @@
-import utils
+import data.data_utils as utils
 import argparse
 import tensorflow as tf
 import os
