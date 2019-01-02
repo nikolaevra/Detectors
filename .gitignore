@@ -2,6 +2,7 @@
 detectors/yolo/saved_model/*
 detectors/yolo/darknet_weights/*
 data/imgs
+data/train_data
 env/
 graphs/
 models/

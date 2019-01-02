@@ -10,7 +10,7 @@ from yolo.utils import load_coco_names, load_weights
 FLAGS = tf.app.flags.FLAGS
 
 tf.app.flags.DEFINE_string(
-    'class_names', 'yolo/obj.names', 'File with class names')
+    'class_names', '../config/obj.names', 'File with class names')
 tf.app.flags.DEFINE_string(
     'weights_file', 'yolo/darknet_weights/yolov3-tiny_obj_last.weights', 'Binary file with detector weights')
 tf.app.flags.DEFINE_string(
