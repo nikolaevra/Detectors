@@ -89,8 +89,7 @@ def load_weights(var_list, weights_file):
                     num_params = np.prod(shape)
                     var_weights = weights[ptr:ptr + num_params].reshape(shape)
                     ptr += num_params
-                    assign_ops.append(
-                        tf.assign(var, var_weights, validate_shape=True))
+                    assign_ops.append(tf.assign(var, var_weights, validate_shape=True))
 
                 # we move the pointer by 4, because we loaded 4 variables
                 i += 4
@@ -99,8 +98,7 @@ def load_weights(var_list, weights_file):
                 bias = var2
                 bias_shape = bias.shape.as_list()
                 bias_params = np.prod(bias_shape)
-                bias_weights = weights[ptr:ptr +
-                                           bias_params].reshape(bias_shape)
+                bias_weights = weights[ptr:ptr + bias_params].reshape(bias_shape)
                 ptr += bias_params
                 assign_ops.append(
                     tf.assign(bias, bias_weights, validate_shape=True))

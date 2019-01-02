@@ -74,7 +74,6 @@ def yolo_v3_tiny(inputs, num_classes, is_training=False, data_format='NCHW', reu
                     route_2 = inputs
 
                     inputs = _conv2d_fixed_padding(inputs, 512, 3)
-                    # inputs = _conv2d_fixed_padding(inputs, 255, 1)
 
                     detect_1 = _detection_layer(
                         inputs, num_classes, _ANCHORS[3:6], img_size, data_format)
@@ -88,7 +87,6 @@ def yolo_v3_tiny(inputs, num_classes, is_training=False, data_format='NCHW', reu
                                        axis=1 if data_format == 'NCHW' else 3)
 
                     inputs = _conv2d_fixed_padding(inputs, 256, 3)
-                    # inputs = _conv2d_fixed_padding(inputs, 255, 1)
 
                     detect_2 = _detection_layer(
                         inputs, num_classes, _ANCHORS[0:3], img_size, data_format)

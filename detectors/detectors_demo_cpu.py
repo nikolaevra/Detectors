@@ -12,7 +12,7 @@ def main():
 
     img_file = os.path.join(BASE_DIR, base, image)
     ckpt_path = os.path.join(BASE_DIR, '../models/tiny/model.ckpt')
-    cls_path = os.path.join(BASE_DIR, 'yolo/obj.names')
+    cls_path = os.path.join(BASE_DIR, '../config/obj.names')
 
     # Test YOLO
     yolo = YoloDetectorWrapper(
@@ -24,6 +24,10 @@ def main():
 
     img = Image.open(img_file)
     detections = yolo.detect(img)
+
+    import pdb
+    pdb.set_trace()
+
     yolo.save_image(img, detections, output_img='out')
 
     # yolo.export(path=model_path)

@@ -141,6 +141,7 @@ def _detection_layer(inputs, num_classes, anchors, img_size, data_format):
 
     grid_x = tf.range(grid_size[0], dtype=tf.float32)
     grid_y = tf.range(grid_size[1], dtype=tf.float32)
+
     a, b = tf.meshgrid(grid_x, grid_y)
 
     x_offset = tf.reshape(a, (-1, 1))
