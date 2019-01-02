@@ -22,6 +22,7 @@ def get_boxes_and_inputs(model, num_classes, size, data_format):
         detections = model(inputs, num_classes,
                            data_format=data_format)
 
+    detections, fmap1, fmap2 = detections
     boxes = detections_boxes(detections)
 
     return boxes, inputs
