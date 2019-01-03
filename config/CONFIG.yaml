@@ -12,6 +12,7 @@ TaskConfig:
   INPUT_H: 416
 
   DATA_DIR: "data/files.txt"
+  DATA_OUT_DIR: "data/demo_output"
   IMG_LIMIT: 1
   IN_LAYER: "inputs"
   OUT_LAYER: "output_boxes"

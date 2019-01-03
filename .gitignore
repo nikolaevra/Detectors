@@ -3,7 +3,8 @@ detectors/yolo/saved_model/*
 detectors/yolo/darknet_weights/*
 data/imgs
 data/train_data
-env/
+env_gpu/
+env_cpu/
 graphs/
 models/
 

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import tensorflow as tf
 from yolo_v3 import _conv2d_fixed_padding, _fixed_padding, _get_size, \
     _upsample
@@ -152,6 +150,7 @@ def loss_layer(self, feature_map_i, y_true, anchors):
 
     return loss_coord, loss_sizes, loss_confs, loss_class
 
+
 def _detection_layer(inputs, num_anchors, num_classes):
     return slim.conv2d(inputs, num_anchors * (5 + num_classes), 1,
                        stride=1, normalizer_fn=None,
@@ -240,6 +239,7 @@ def yolo_v3_tiny(inputs, num_classes, is_training=False, data_format='NCHW', reu
         'fused': None,  # Use fused batch norm if possible.
     }
 
+    # with tf.device("/gpu:0"):
     # Set activation_fn and parameters for conv2d, batch_norm.
     with slim.arg_scope([slim.conv2d, slim.batch_norm, _fixed_padding, slim.max_pool2d],
                         data_format=data_format):

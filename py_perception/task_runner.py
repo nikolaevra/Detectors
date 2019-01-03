@@ -1,10 +1,12 @@
 import os
+import numpy as np
 
 from PIL import Image
 
 from detectors.yolo.module_utils.timer import time
 from detectors.yolo.yolo_wrapper import YoloDetectorWrapper
 from py_perception.iou_tracker import Tracker
+from qt_gui.viz_utils import draw_tracks_on_image, save_image_from_np
 
 
 class TaskRunner:
@@ -13,6 +15,7 @@ class TaskRunner:
         self.ckpt_path = os.path.join(base_dir, config['MODEL_CKPT_PATH'])
         self.cls_path = os.path.join(base_dir, config['CLS_PATH'])
         self.images_file_path = os.path.join(base_dir, config['DATA_DIR'])
+        self.images_output_path = os.path.join(base_dir, config['DATA_OUT_DIR'])
 
         self.detector = YoloDetectorWrapper(
             tiny=True,
@@ -40,9 +43,14 @@ class TaskRunner:
 
             image_inference = time.time()
 
-            tracks = self.tracker.track_iou(grouped_detections)
+            active_tracks = self.tracker.track_iou(grouped_detections)
 
             track_update = time.time()
+
+            image_w_boxes = draw_tracks_on_image(img, active_tracks)
+
+            import pdb
+            pdb.set_trace()
 
             image_time = image_inference - load_image
             tracker_time = track_update - image_inference

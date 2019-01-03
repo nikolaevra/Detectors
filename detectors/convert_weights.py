@@ -10,15 +10,19 @@ from yolo.utils import load_coco_names, load_weights
 FLAGS = tf.app.flags.FLAGS
 
 tf.app.flags.DEFINE_string(
-    'class_names', '../config/obj.names', 'File with class names')
+    'class_names', '/home/nikolaevra/dev/detectors/config/obj.names', 'File with class names')
 tf.app.flags.DEFINE_string(
-    'weights_file', 'yolo/darknet_weights/yolov3-tiny_obj_last.weights', 'Binary file with detector weights')
+    'weights_file',
+    '/home/nikolaevra/dev/detectors/detectors/yolo/darknet_weights/yolov3-tiny_obj_last.weights',
+    'Binary file with detector weights')
 tf.app.flags.DEFINE_string(
     'data_format', 'NHWC', 'Data format: NCHW (gpu only) / NHWC')
 tf.app.flags.DEFINE_bool(
     'tiny', True, 'Use tiny version of YOLOv3')
 tf.app.flags.DEFINE_string(
-    'ckpt_file', '../models/tiny/model.ckpt', 'Checkpoint file')
+    'ckpt_file',
+    '/home/nikolaevra/dev/detectors/models/tinymodel.ckpt',
+    'Checkpoint file')
 tf.app.flags.DEFINE_integer('width', 416, 'Image size')
 tf.app.flags.DEFINE_integer('height', 416, 'Image size')
 
@@ -33,6 +37,7 @@ def main(argv=None):
 
     # placeholder for detector inputs
     # any size > 320 will work here
+    # with tf.device("/gpu:0"):
     inputs = tf.placeholder(tf.float32, [1, FLAGS.height, FLAGS.width, 3])
 
     with tf.variable_scope('detector'):
@@ -44,6 +49,7 @@ def main(argv=None):
     saver = tf.train.Saver(tf.global_variables(scope='detector'))
 
     with tf.Session() as sess:
+        # with tf.device("/gpu:0"):
         sess.run(load_ops)
 
         save_path = saver.save(sess, save_path=FLAGS.ckpt_file)

@@ -16,6 +16,7 @@ def get_boxes_and_inputs_pb(frozen_graph):
 
 def get_boxes_and_inputs(model, num_classes, size, data_format):
 
+    # with tf.device("/gpu:0"):
     inputs = tf.placeholder(tf.float32, [1, size[0], size[1], 3])
 
     with tf.variable_scope('detector'):

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import numpy as np
 import tensorflow as tf
 
@@ -46,7 +44,7 @@ class YoloDetectorWrapper:
         self.classes = load_coco_names(cls_path)
         self.boxes, self.inputs = get_boxes_and_inputs(self.model, len(self.classes), self.size, self.data_format)
         self.saver = tf.train.Saver(var_list=tf.global_variables(scope='detector'))
-        self.sess = tf.Session()
+        self.sess = tf.Session(config=self.config)
 
         t0 = time.time()
         self.saver.restore(self.sess, self.ckpt_file)
@@ -56,8 +54,13 @@ class YoloDetectorWrapper:
         img_resized = letter_box_image(img, self.size[0], self.size[1], 128)
         img_resized = img_resized.astype(np.float32)
 
-        detected_boxes = self.sess.run(self.boxes, feed_dict={self.inputs: [img_resized]})
+        run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
+        run_metadata = tf.RunMetadata()
+        #
+        # import pdb
+        # pdb.set_trace()
 
+        detected_boxes = self.sess.run(self.boxes, feed_dict={self.inputs: [img_resized]}, options=run_options, run_metadata=run_metadata)
         filtered_boxes = non_max_suppression(detected_boxes,
                                              confidence_threshold=self.conf_threshold,
                                              iou_threshold=self.iou_threshold)

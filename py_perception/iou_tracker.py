@@ -35,6 +35,8 @@ class Tracker:
         dets = [det for det in detections_frame if det['score'] >= self.sigma_l]
 
         updated_tracks = []
+        curr_cycle_active_tracks = []
+
         for track in self.tracks_active:
             if len(dets) > 0:
                 # Get detection with highest iou.
@@ -43,6 +45,12 @@ class Tracker:
                 if iou(track['bboxes'][-1], best_match['bbox']) >= self.sigma_iou:
                     track['bboxes'].append(best_match['bbox'])
                     track['max_score'] = max(track['max_score'], best_match['score'])
+
+                    curr_cycle_active_tracks.append({
+                        'bbox': best_match['bbox'],
+                        'track_id': track['track_id'],
+                        'class': track['class']
+                    })
 
                     updated_tracks.append(track)
 
@@ -65,6 +73,13 @@ class Tracker:
                  'track_id': self.next_track_id,
                  'class': det['class']}
             )
+
+            curr_cycle_active_tracks.append({
+                'bbox': det['bbox'],
+                'track_id': self.next_track_id,
+                'class': det['class']
+            })
+
             self.next_track_id += 1
 
         self.tracks_active = updated_tracks + new_tracks
@@ -76,7 +91,7 @@ class Tracker:
         # Increment the frame number.
         self.frame_num += 1
 
-        return self.tracks_active
+        return curr_cycle_active_tracks
 
     def get_finished_tracks(self):
         return self.tracks_finished
